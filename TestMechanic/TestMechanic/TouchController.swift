@@ -12,15 +12,13 @@ import SceneKit
 var speedKf: CGFloat = 0
 var speedType: SpeedType = .zero
 enum SpeedType: String {
-    case zero,one,two,three,four,five
+    case zero,one,two
 }
 
 var jumpHighKf: CGFloat = 0
 var jumpDurationKf: Double = 1
 var jumpDistanceKf: CGFloat = 60
 // for test only: <<
-
-
 
 
 
@@ -38,15 +36,14 @@ class TouchController {
     
     var panRecognizer = UIPanGestureRecognizer() // передвижение героя
     var tapRecognizer = UITapGestureRecognizer() // прыжки героя
+    var doubleTapRecognizer = UITapGestureRecognizer() // прыжки героя
+    var longRecongnizer = UILongPressGestureRecognizer()
     var scnView: SCNView!
     
     var heroNode: SCNNode!
     var hero = Hero()
     
-    
     //for test only:
-    var delegate: VCDelegateProtocol?
-    
     
     func setup(scnView: SCNView, heroNode: SCNNode){
         self.scnView = scnView
@@ -56,8 +53,15 @@ class TouchController {
         panRecognizer.maximumNumberOfTouches = 1
         tapRecognizer.addTarget(self, action: #selector(handleTapGesture))
         tapRecognizer.numberOfTapsRequired = 1
+        doubleTapRecognizer.addTarget(self, action: #selector(handleTapGesture))
+        doubleTapRecognizer.numberOfTapsRequired = 2
         scnView.addGestureRecognizer(panRecognizer)
         scnView.addGestureRecognizer(tapRecognizer)
+        //scnView.addGestureRecognizer(doubleTapRecognizer)
+        
+//        longRecongnizer.addTarget(self, action: #selector(handleTapGesture))
+//        longRecongnizer.minimumPressDuration = 0.1
+//        scnView.addGestureRecognizer(longRecongnizer)
     }
     
     
@@ -94,23 +98,12 @@ class TouchController {
         if delta == 0 {
             speedType = .zero
         }
-        if delta == (0.05 + speedKf) {
+        if delta == (0.1 + speedKf) {
             speedType = .one
         }
-        if delta == (0.06 + speedKf) {
+        if delta == (0.2 + speedKf) {
             speedType = .two
         }
-        
-        if delta == (0.07 + speedKf) {
-            speedType = .three
-        }
-        if delta == (0.1 + speedKf) {
-            speedType = .four
-        }
-        if delta == (0.15 + speedKf) {
-            speedType = .five
-        }
-        delegate?.updateSpeedMoveSlider()
     }
     
     
@@ -119,14 +112,6 @@ class TouchController {
         var dy = pt2.y - pt1.y
         dx *=  (0.001 + speedKf)
         dy *=  (0.001 + speedKf)
-        
-        if testVelocityMinMax {
-            if abs(highX) < abs(dx) { highX = abs(dx) }
-            if abs(highZ) < abs(dy) { highZ = abs(dy) }
-            if abs(lowX) > abs(dx) { lowX = abs(dx) }
-            if abs(lowZ) > abs(dy) { lowZ = abs(dy) }
-            print("\(highX) : \(highZ) -----  \(lowX) : \(lowZ)  ")
-        }
         
         dx = getAcceptableVelocity(dx)
         dy = getAcceptableVelocity(dy)
@@ -146,23 +131,11 @@ class TouchController {
         
         let sign: CGFloat = delta > 0 ? 1 : -1
         
-        if abs(delta) < (0.05 + speedKf) {
-            return sign*(0.05 + speedKf)
-        }
-        
-        if abs(delta) < (0.06 + speedKf) {
-            return sign*(0.06 + speedKf)
-        }
-        
-        if abs(delta) < (0.07 + speedKf) {
-            return sign*(0.07 + speedKf)
-        }
-        
-        if abs(delta) < (0.1 + speedKf) {
+        if abs(delta) <= (0.1 + speedKf) {
             return sign*(0.1 + speedKf)
         }
         
-        return sign*(0.15 + speedKf)
+        return sign*(0.2 + speedKf)
     }
     
     
@@ -194,7 +167,7 @@ class TouchController {
 extension TouchController {
     
     @objc func handleTapGesture() {
-        if hero.state == .run {
+        if hero.state == .run || hero.state == .stop {
             jump()
         }
     }
@@ -232,15 +205,15 @@ extension TouchController {
         if currentAnchorPoint.x != 0 || currentAnchorPoint.y != 0 &&
             (abs(prevTouch.x - currentAnchorPoint.x) > sensitivity ||
             abs(prevTouch.y - currentAnchorPoint.y) > sensitivity) {
-            let velocity = calcVelocity(startAnchorPoint, currentAnchorPoint)
+            let velocity = getVelocity(startPoint: startAnchorPoint, nextPoint: currentAnchorPoint)
             oldVelocity = velocity
             prevTouch = currentAnchorPoint
         }
         
         let newX = CGFloat(lastHeroPosition.x) + oldVelocity.x
         let newZ = CGFloat(lastHeroPosition.z) + oldVelocity.y
-        
-        let moveTo = SCNVector3(newX, CGFloat(heroNode.position.y), newZ)
+       
+        let moveTo = SCNVector3(newX, CGFloat(heroNode.presentation.worldPosition.y), newZ)
         lastHeroPosition = moveTo
         startAnchorPoint = offsetCenterPoint(centerPoint: startAnchorPoint, currentPoint: currentAnchorPoint)
         heroNode.position = moveTo
@@ -252,6 +225,9 @@ extension TouchController {
 //MARK:- Jumping
 extension TouchController {
     func jump() {
+        print(hero.state)
+        guard hero.state != .jump else { return }
+        hero.state = .jump
         let duration = jumpDurationKf
         
         // Bounce:
@@ -266,9 +242,17 @@ extension TouchController {
         let customAction = SCNAction.customAction(duration: duration) {_,_ in
             self.lastHeroPosition = self.heroNode.position
         }
-        let jump = SCNAction.group([bounceAction, moveAction, customAction])
-        heroNode.runAction(jump)
+        
+        DispatchQueue.global().asyncAfter(deadline: .now()+duration) {
+            self.lastHeroPosition = self.heroNode.position
+            self.hero.state = .stop
+        }
+        
+        let jump = SCNAction.group([bounceAction, moveAction])
+        let seq = SCNAction.sequence([jump, customAction])
+        heroNode.runAction(seq)
     }
+    
     
     func calcJumpHigh() -> CGFloat {
         switch speedType {
@@ -278,12 +262,6 @@ extension TouchController {
             return 4 + jumpHighKf
         case .two:
             return 5 + jumpHighKf
-        case .three:
-            return 6 + jumpHighKf
-        case .four:
-            return 7 + jumpHighKf
-        case .five:
-            return 8 + jumpHighKf
         }
     }
 }

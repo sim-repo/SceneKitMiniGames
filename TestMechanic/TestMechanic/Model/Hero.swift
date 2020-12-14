@@ -10,7 +10,7 @@ import Foundation
 
 class Hero {
     enum State {
-        case run, jump, stop
+        case walk, run, jump, stop
     }
     var state: State = .stop
 }

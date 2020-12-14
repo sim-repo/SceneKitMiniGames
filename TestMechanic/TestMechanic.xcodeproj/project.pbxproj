@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16043D082587F87100A314AF /* TouchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16043D072587F87100A314AF /* TouchController.swift */; };
+		1662470B2587A92D0096EA47 /* MovingDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1662470A2587A92D0096EA47 /* MovingDirection.swift */; };
 		1684B64125860601004DB558 /* RecognizerDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B64025860601004DB558 /* RecognizerDirection.swift */; };
 		1684B6462586262B004DB558 /* TrigonimetryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B6452586262B004DB558 /* TrigonimetryHelper.swift */; };
-		1684B64A25867212004DB558 /* TouchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B64925867212004DB558 /* TouchController.swift */; };
 		1684B650258689A0004DB558 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B64F258689A0004DB558 /* Hero.swift */; };
 		16A4592C258579AD0062028B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A4592B258579AD0062028B /* AppDelegate.swift */; };
 		16A4592E258579AD0062028B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A4592D258579AD0062028B /* SceneDelegate.swift */; };
@@ -18,13 +19,13 @@
 		16A45935258579AF0062028B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16A45934258579AF0062028B /* Assets.xcassets */; };
 		16A45938258579AF0062028B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A45936258579AF0062028B /* LaunchScreen.storyboard */; };
 		16A45942258579EE0062028B /* Mech.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 16A45941258579EE0062028B /* Mech.scnassets */; };
-		16A459452585834E0062028B /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A459442585834E0062028B /* GameUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		16043D072587F87100A314AF /* TouchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchController.swift; sourceTree = "<group>"; };
+		1662470A2587A92D0096EA47 /* MovingDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingDirection.swift; sourceTree = "<group>"; };
 		1684B64025860601004DB558 /* RecognizerDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecognizerDirection.swift; sourceTree = "<group>"; };
 		1684B6452586262B004DB558 /* TrigonimetryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrigonimetryHelper.swift; sourceTree = "<group>"; };
-		1684B64925867212004DB558 /* TouchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchController.swift; sourceTree = "<group>"; };
 		1684B64F258689A0004DB558 /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		16A45928258579AD0062028B /* TestMechanic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestMechanic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A4592B258579AD0062028B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -35,7 +36,6 @@
 		16A45937258579AF0062028B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16A45939258579AF0062028B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16A45941258579EE0062028B /* Mech.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Mech.scnassets; sourceTree = "<group>"; };
-		16A459442585834E0062028B /* GameUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameUtils.swift; path = ../../MrPig/MrPig/GameUtils/GameUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,11 +76,11 @@
 		16A4592A258579AD0062028B /* TestMechanic */ = {
 			isa = PBXGroup;
 			children = (
+				1662470A2587A92D0096EA47 /* MovingDirection.swift */,
+				16043D072587F87100A314AF /* TouchController.swift */,
 				1684B64E25868996004DB558 /* Model */,
 				1684B6452586262B004DB558 /* TrigonimetryHelper.swift */,
-				1684B64925867212004DB558 /* TouchController.swift */,
 				1684B64025860601004DB558 /* RecognizerDirection.swift */,
-				16A459442585834E0062028B /* GameUtils.swift */,
 				16A4592B258579AD0062028B /* AppDelegate.swift */,
 				16A4592D258579AD0062028B /* SceneDelegate.swift */,
 				16A4592F258579AD0062028B /* ViewController.swift */,
@@ -165,13 +165,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				16A45930258579AD0062028B /* ViewController.swift in Sources */,
+				1662470B2587A92D0096EA47 /* MovingDirection.swift in Sources */,
 				1684B64125860601004DB558 /* RecognizerDirection.swift in Sources */,
-				1684B64A25867212004DB558 /* TouchController.swift in Sources */,
 				1684B650258689A0004DB558 /* Hero.swift in Sources */,
 				1684B6462586262B004DB558 /* TrigonimetryHelper.swift in Sources */,
-				16A459452585834E0062028B /* GameUtils.swift in Sources */,
 				16A4592C258579AD0062028B /* AppDelegate.swift in Sources */,
 				16A4592E258579AD0062028B /* SceneDelegate.swift in Sources */,
+				16043D082587F87100A314AF /* TouchController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

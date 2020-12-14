@@ -7,7 +7,7 @@
 
 import UIKit
 import SceneKit
-import SpriteKit
+
 
 let BitMaskHero = 1
 let BitMaskObstacle = 4
@@ -90,8 +90,6 @@ class ViewController: UIViewController, VCDelegateProtocol {
     
     //sliders for test only: <<
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupScenes()
@@ -106,7 +104,7 @@ class ViewController: UIViewController, VCDelegateProtocol {
         
         touchControler.panRecognizer.delegate = self
         touchControler.tapRecognizer.delegate = self
-        touchControler.delegate = self
+      //  touchControler.delegate = self
     }
     
     
@@ -137,6 +135,47 @@ class ViewController: UIViewController, VCDelegateProtocol {
 
 
 
+
+var velocitySnapshots: [SCNVector3] = []
+var freeFallStarted = false
+func checkFreeFalls(node: SCNNode){
+    guard let velocity = node.physicsBody?.velocity else { return }
+    
+    //first detect
+    
+    if freeFallStarted == false,
+       velocitySnapshots.count == 0,
+       velocity.x == 0 &&  velocity.y < 0 && velocity.z == 0 {
+        
+            freeFallStarted = true
+            velocitySnapshots.append(velocity)
+            return
+    }
+    
+    if freeFallStarted == false {
+        return
+    }
+    
+    if velocity.x != 0 || velocity.z != 0 || velocity.y >= 0 {
+    
+        freeFallStarted = false
+        velocitySnapshots = []
+        return
+    }
+       
+    velocitySnapshots.append(velocity)
+       
+    let Y = velocitySnapshots.map{$0.y}
+    if !velocitySnapshots.contains(where: {$0.x != 0}) &&
+       !velocitySnapshots.contains(where: {$0.z != 0}) &&
+       !velocitySnapshots.contains(where: {$0.y >= 0}) &&
+        Y.count > 5 {
+         //print("FREE FALL!")
+    }
+}
+
+
+
 //MARK:- Renderer
 extension ViewController : SCNSceneRendererDelegate {
 
@@ -148,7 +187,6 @@ extension ViewController : SCNSceneRendererDelegate {
             dt = 0
         }
         lastUpdateTime = currentTime
-        
         updateCamera()
         touchControler.move()
     }
@@ -193,6 +231,7 @@ extension ViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
-        return false
+        return true
     }
+    
 }
