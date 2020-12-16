@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		16043D082587F87100A314AF /* TouchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16043D072587F87100A314AF /* TouchController.swift */; };
+		162FADE5258938A200922ACF /* TouchControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FADE4258938A200922ACF /* TouchControllerOld.swift */; };
+		162FADE92589390E00922ACF /* TC + LongJump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FADE82589390E00922ACF /* TC + LongJump.swift */; };
+		162FADED258939C300922ACF /* TC + HighJump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FADEC258939C300922ACF /* TC + HighJump.swift */; };
 		1662470B2587A92D0096EA47 /* MovingDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1662470A2587A92D0096EA47 /* MovingDirection.swift */; };
 		1684B64125860601004DB558 /* RecognizerDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B64025860601004DB558 /* RecognizerDirection.swift */; };
 		1684B6462586262B004DB558 /* TrigonimetryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B6452586262B004DB558 /* TrigonimetryHelper.swift */; };
@@ -23,6 +26,9 @@
 
 /* Begin PBXFileReference section */
 		16043D072587F87100A314AF /* TouchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchController.swift; sourceTree = "<group>"; };
+		162FADE4258938A200922ACF /* TouchControllerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchControllerOld.swift; sourceTree = "<group>"; };
+		162FADE82589390E00922ACF /* TC + LongJump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TC + LongJump.swift"; sourceTree = "<group>"; };
+		162FADEC258939C300922ACF /* TC + HighJump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TC + HighJump.swift"; sourceTree = "<group>"; };
 		1662470A2587A92D0096EA47 /* MovingDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingDirection.swift; sourceTree = "<group>"; };
 		1684B64025860601004DB558 /* RecognizerDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecognizerDirection.swift; sourceTree = "<group>"; };
 		1684B6452586262B004DB558 /* TrigonimetryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrigonimetryHelper.swift; sourceTree = "<group>"; };
@@ -49,6 +55,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		162FADE32589389000922ACF /* Backup */ = {
+			isa = PBXGroup;
+			children = (
+				162FADE4258938A200922ACF /* TouchControllerOld.swift */,
+			);
+			path = Backup;
+			sourceTree = "<group>";
+		};
 		1684B64E25868996004DB558 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,9 +90,12 @@
 		16A4592A258579AD0062028B /* TestMechanic */ = {
 			isa = PBXGroup;
 			children = (
+				162FADE32589389000922ACF /* Backup */,
+				1684B64E25868996004DB558 /* Model */,
 				1662470A2587A92D0096EA47 /* MovingDirection.swift */,
 				16043D072587F87100A314AF /* TouchController.swift */,
-				1684B64E25868996004DB558 /* Model */,
+				162FADE82589390E00922ACF /* TC + LongJump.swift */,
+				162FADEC258939C300922ACF /* TC + HighJump.swift */,
 				1684B6452586262B004DB558 /* TrigonimetryHelper.swift */,
 				1684B64025860601004DB558 /* RecognizerDirection.swift */,
 				16A4592B258579AD0062028B /* AppDelegate.swift */,
@@ -165,10 +182,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				16A45930258579AD0062028B /* ViewController.swift in Sources */,
+				162FADE5258938A200922ACF /* TouchControllerOld.swift in Sources */,
 				1662470B2587A92D0096EA47 /* MovingDirection.swift in Sources */,
+				162FADED258939C300922ACF /* TC + HighJump.swift in Sources */,
 				1684B64125860601004DB558 /* RecognizerDirection.swift in Sources */,
 				1684B650258689A0004DB558 /* Hero.swift in Sources */,
 				1684B6462586262B004DB558 /* TrigonimetryHelper.swift in Sources */,
+				162FADE92589390E00922ACF /* TC + LongJump.swift in Sources */,
 				16A4592C258579AD0062028B /* AppDelegate.swift in Sources */,
 				16A4592E258579AD0062028B /* SceneDelegate.swift in Sources */,
 				16043D082587F87100A314AF /* TouchController.swift in Sources */,

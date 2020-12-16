@@ -10,7 +10,14 @@ import Foundation
 
 class Hero {
     enum State {
-        case walk, run, jump, stop
+        case walk, run, longJump, willStand, stand, highJump
     }
-    var state: State = .stop
+    var count = 0
+    var state: State = .stand {
+        didSet {
+            if state == .longJump {
+                count += 1
+            }
+        }
+    }
 }

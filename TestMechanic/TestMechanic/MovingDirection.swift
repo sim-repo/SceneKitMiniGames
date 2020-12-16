@@ -7,7 +7,7 @@
 
 import UIKit
 
-private enum VelocityEnum {
+ enum VelocityEnum {
     case right, left, top, down, topRight, downRight, topLeft, downLeft
 }
 
@@ -77,10 +77,20 @@ private func getVelocityEnum(by angle: Double) -> VelocityEnum {
 }
 
 
-func getVelocity(startPoint: CGPoint, nextPoint: CGPoint) -> CGPoint {
+func getVelocity(startPoint: CGPoint, nextPoint: CGPoint, didFirstStep: inout Bool, translation: CGPoint, lockMove: inout Bool) -> CGPoint {
     
     let angle = getAngle(startPoint: startPoint, nextPoint: nextPoint)
     let velocityEnum = getVelocityEnum(by: angle)
+    
+    if didFirstStep {
+        didFirstStep = false
+        lockMove = canLockMove(translation: translation, velocityEnum: velocityEnum)
+        
+    } else {
+        if canLockMove(translation: translation, velocityEnum: velocityEnum) == false {
+            lockMove = false
+        }
+    }
     
     var dx: CGFloat = 0
     var dy: CGFloat = 0
@@ -113,4 +123,31 @@ func getVelocity(startPoint: CGPoint, nextPoint: CGPoint) -> CGPoint {
             dy = 0.5
     }
     return CGPoint(x: dx * koef, y: dy * koef)
+}
+
+
+
+func canLockMove(translation: CGPoint, velocityEnum: VelocityEnum) -> Bool {
+    
+    let dx = translation.x
+    let dy = translation.y
+
+    switch velocityEnum {
+        case .right:
+            return dx <= 0
+        case .left:
+            return dx >= 0
+        case .top:
+            return dy >= 0
+        case .down:
+            return dy <= 0
+        case .topRight:
+            return dy >= 0 && dx <= 0
+        case .downRight:
+            return dy <= 0 && dx <= 0
+        case .topLeft:
+            return dy >= 0 && dx >= 0
+        case .downLeft:
+            return dy <= 0 && dx >= 0
+    }
 }
