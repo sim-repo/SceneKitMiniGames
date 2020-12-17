@@ -15,9 +15,6 @@ let BitMaskObstacle = 4
 
 class ViewController: UIViewController {
     
-    var lastUpdateTime: TimeInterval = 0
-    var dt: TimeInterval = 0
-    
     var scnView: SCNView!
     var gameScene: SCNScene!
     var hero: SCNNode!
@@ -33,9 +30,12 @@ class ViewController: UIViewController {
     var tapView: UIView?
     var tapRecognizer: UITapGestureRecognizer? // прыжки героя
     
-    var centroidView: UIView?
-  
     
+    //unnecessaries:
+    var centroidView: UIView?
+    var pigs: SCNNode!
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupScenes()
@@ -43,7 +43,6 @@ class ViewController: UIViewController {
         setupNodes()
         setupCollisionNodes()
         setupTouchController()
-       
     }
     
     
@@ -78,6 +77,30 @@ class ViewController: UIViewController {
         camera = gameScene.rootNode.childNode(withName: "Cam", recursively: true)!
         cameraFollow = gameScene.rootNode.childNode(withName: "FollowCam", recursively: true)!
     }
+    
+    
+    func runPigsAction() {
+        pigs = gameScene.rootNode.childNode(withName: "Pigs", recursively: true)!
+        let children = pigs.childNodes
+        for child in children {
+            if !child.hasActions {
+                print("run piggy")
+                moveBySquare(node: child)
+            }
+        }
+    }
+    
+    func removePigsAction() {
+        pigs = gameScene.rootNode.childNode(withName: "Pigs", recursively: true)!
+        let children = pigs.childNodes
+        for child in children {
+            if child.hasActions {
+                child.removeAllActions()
+                print("remove piggy")
+            }
+        }
+    }
+
     
     override var prefersStatusBarHidden : Bool { return true }
     override var shouldAutorotate : Bool { return false }
@@ -131,13 +154,24 @@ extension ViewController : SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didApplyAnimationsAtTime time: TimeInterval) {
         updateCamera()
         touchControler.tryMove()
+        makeTransparentHidingObjects()
+        triggerActions()
     }
     
-    /*
-        Предотвращяем прохождение сквозь стены
-     */
-    func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
 
+    func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        preventPassingThroughWalls(scene: scene)
+    }
+}
+
+
+
+//MARK:- prevent
+/*
+    Предотвращяем прохождение сквозь стены
+ */
+extension ViewController  {
+    func preventPassingThroughWalls(scene: SCNScene) {
         let contacts = scene.physicsWorld.contactTest(with: hero.physicsBody!, options: nil)
         for contact in contacts {
             let cn = SCNVector3( round(contact.contactNormal.x),
@@ -166,6 +200,27 @@ extension ViewController : SCNSceneRendererDelegate {
         }
     }
 }
+
+
+//MARK:- hiding objects
+extension ViewController  {
+    func makeTransparentHidingObjects(){
+        let nodes = scnView.nodesInsideFrustum(of: camera)
+        
+        nodes.forEach{n in
+            n.opacity = 1
+        }
+        
+        let nearZ = nodes.filter{$0.worldPosition.z > hero.worldPosition.z}
+        let heroTop = getNodeTop(hero)
+        let higher = nearZ.filter{ (getNodeTop($0) - 3) > heroTop }
+        
+        for n in higher {
+            n.opacity = 0.4
+        }
+    }
+}
+
 
 
 //MARK:- Camera
@@ -198,5 +253,31 @@ extension ViewController: UIGestureRecognizerDelegate {
                            shouldRecognizeSimultaneouslyWith shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
         return true
     }
-    
+}
+
+
+
+//MARK:- trigger actions
+extension ViewController  {
+    func triggerActions() {
+//        let nodes = scnView.nodesInsideFrustum(of: camera)
+//        nodes.forEach {n in
+//            if n.name == "Piggy" {
+//                runPigsAction()
+//            }
+//        }
+        
+        let children = gameScene.rootNode.childNodes
+        for child in children {
+            if scnView.isNode(child, insideFrustumOf: camera) {
+                if child.name == "Pigs" {
+                    runPigsAction()
+                }
+            } else {
+                if child.name == "Pigs" {
+                    removePigsAction()
+                }
+            }
+        }
+    }
 }
