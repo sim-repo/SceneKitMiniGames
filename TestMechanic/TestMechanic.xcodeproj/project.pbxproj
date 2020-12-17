@@ -11,7 +11,6 @@
 		162FADE5258938A200922ACF /* TouchControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FADE4258938A200922ACF /* TouchControllerOld.swift */; };
 		162FADE92589390E00922ACF /* TC + LongJump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FADE82589390E00922ACF /* TC + LongJump.swift */; };
 		162FADED258939C300922ACF /* TC + HighJump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162FADEC258939C300922ACF /* TC + HighJump.swift */; };
-		1662470B2587A92D0096EA47 /* MovingDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1662470A2587A92D0096EA47 /* MovingDirection.swift */; };
 		1684B64125860601004DB558 /* RecognizerDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B64025860601004DB558 /* RecognizerDirection.swift */; };
 		1684B6462586262B004DB558 /* TrigonimetryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B6452586262B004DB558 /* TrigonimetryHelper.swift */; };
 		1684B650258689A0004DB558 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1684B64F258689A0004DB558 /* Hero.swift */; };
@@ -21,7 +20,9 @@
 		16A45933258579AD0062028B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A45931258579AD0062028B /* Main.storyboard */; };
 		16A45935258579AF0062028B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16A45934258579AF0062028B /* Assets.xcassets */; };
 		16A45938258579AF0062028B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A45936258579AF0062028B /* LaunchScreen.storyboard */; };
-		16A45942258579EE0062028B /* Mech.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 16A45941258579EE0062028B /* Mech.scnassets */; };
+		16E27C2F258AB8CD005965E8 /* MovingDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E27C2E258AB8CD005965E8 /* MovingDirection.swift */; };
+		16E27C3C258AB9EB005965E8 /* Mech.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 16E27C3B258AB9EB005965E8 /* Mech.scnassets */; };
+		16F69CEC258ABE9C00061B7F /* Mech.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 16F69CEB258ABE9700061B7F /* Mech.scnassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +30,6 @@
 		162FADE4258938A200922ACF /* TouchControllerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchControllerOld.swift; sourceTree = "<group>"; };
 		162FADE82589390E00922ACF /* TC + LongJump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TC + LongJump.swift"; sourceTree = "<group>"; };
 		162FADEC258939C300922ACF /* TC + HighJump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TC + HighJump.swift"; sourceTree = "<group>"; };
-		1662470A2587A92D0096EA47 /* MovingDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingDirection.swift; sourceTree = "<group>"; };
 		1684B64025860601004DB558 /* RecognizerDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecognizerDirection.swift; sourceTree = "<group>"; };
 		1684B6452586262B004DB558 /* TrigonimetryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrigonimetryHelper.swift; sourceTree = "<group>"; };
 		1684B64F258689A0004DB558 /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
@@ -41,7 +41,9 @@
 		16A45934258579AF0062028B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16A45937258579AF0062028B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16A45939258579AF0062028B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16A45941258579EE0062028B /* Mech.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Mech.scnassets; sourceTree = "<group>"; };
+		16E27C2E258AB8CD005965E8 /* MovingDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingDirection.swift; sourceTree = "<group>"; };
+		16E27C3B258AB9EB005965E8 /* Mech.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Mech.scnassets; sourceTree = "<group>"; };
+		16F69CEB258ABE9700061B7F /* Mech.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Mech.scnassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +94,7 @@
 			children = (
 				162FADE32589389000922ACF /* Backup */,
 				1684B64E25868996004DB558 /* Model */,
-				1662470A2587A92D0096EA47 /* MovingDirection.swift */,
+				16E27C2E258AB8CD005965E8 /* MovingDirection.swift */,
 				16043D072587F87100A314AF /* TouchController.swift */,
 				162FADE82589390E00922ACF /* TC + LongJump.swift */,
 				162FADEC258939C300922ACF /* TC + HighJump.swift */,
@@ -104,8 +106,9 @@
 				16A45931258579AD0062028B /* Main.storyboard */,
 				16A45934258579AF0062028B /* Assets.xcassets */,
 				16A45936258579AF0062028B /* LaunchScreen.storyboard */,
+				16E27C3B258AB9EB005965E8 /* Mech.scnassets */,
+				16F69CEB258ABE9700061B7F /* Mech.scnassets */,
 				16A45939258579AF0062028B /* Info.plist */,
-				16A45941258579EE0062028B /* Mech.scnassets */,
 			);
 			path = TestMechanic;
 			sourceTree = "<group>";
@@ -167,10 +170,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16A45942258579EE0062028B /* Mech.scnassets in Resources */,
 				16A45938258579AF0062028B /* LaunchScreen.storyboard in Resources */,
 				16A45935258579AF0062028B /* Assets.xcassets in Resources */,
 				16A45933258579AD0062028B /* Main.storyboard in Resources */,
+				16E27C3C258AB9EB005965E8 /* Mech.scnassets in Resources */,
+				16F69CEC258ABE9C00061B7F /* Mech.scnassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,8 +187,8 @@
 			files = (
 				16A45930258579AD0062028B /* ViewController.swift in Sources */,
 				162FADE5258938A200922ACF /* TouchControllerOld.swift in Sources */,
-				1662470B2587A92D0096EA47 /* MovingDirection.swift in Sources */,
 				162FADED258939C300922ACF /* TC + HighJump.swift in Sources */,
+				16E27C2F258AB8CD005965E8 /* MovingDirection.swift in Sources */,
 				1684B64125860601004DB558 /* RecognizerDirection.swift in Sources */,
 				1684B650258689A0004DB558 /* Hero.swift in Sources */,
 				1684B6462586262B004DB558 /* TrigonimetryHelper.swift in Sources */,

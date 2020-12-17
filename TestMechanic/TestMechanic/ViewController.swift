@@ -12,12 +12,6 @@ import SceneKit
 let BitMaskHero = 1
 let BitMaskObstacle = 4
 
-// for test only: >>
-protocol VCDelegateProtocol {
-    func updateSpeedMoveSlider()
-}
-// for test only: <<
-
 
 class ViewController: UIViewController {
     
@@ -69,10 +63,6 @@ class ViewController: UIViewController {
     
     
     func setupScenes() {
-        let height = view.frame.size.height * 0.65
-        let width = view.frame.size.width
-        let frame = CGRect(x:0, y:0, width: width, height: height)
-        
         scnView = SCNView(frame: view.frame)
         self.view.addSubview(scnView)
         scnView.delegate = self
@@ -142,8 +132,40 @@ extension ViewController : SCNSceneRendererDelegate {
         updateCamera()
         touchControler.tryMove()
     }
-}
+    
+    /*
+        Предотвращяем прохождение сквозь стены
+     */
+    func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
 
+        let contacts = scene.physicsWorld.contactTest(with: hero.physicsBody!, options: nil)
+        for contact in contacts {
+            let cn = SCNVector3( round(contact.contactNormal.x),
+                                 round(contact.contactNormal.y),
+                                 round(contact.contactNormal.z))
+            
+            var dx: CGFloat = 0
+            var dz: CGFloat = 0
+            if cn.x != 0 {
+                dx = cn.x > 0 ? 0.1 : -0.1
+            }
+            if cn.z != 0 {
+                dz = cn.z > 0 ? 0.1 : -0.1
+            }
+           
+            if cn.x != 0 || cn.z != 0 {
+                let action = SCNAction.moveBy(x: dx, y: 0, z: dz, duration: 0.1)
+            
+                let updateAction = SCNAction.customAction(duration: 0.1) {_,_ in
+                    self.touchControler.lastHeroPosition = self.hero.presentation.worldPosition
+                }
+                let group = SCNAction.group([updateAction, action])
+                hero.runAction(group)
+            }
+            
+        }
+    }
+}
 
 
 //MARK:- Camera

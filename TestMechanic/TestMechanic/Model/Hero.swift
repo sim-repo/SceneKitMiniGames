@@ -12,12 +12,6 @@ class Hero {
     enum State {
         case walk, run, longJump, willStand, stand, highJump
     }
-    var count = 0
-    var state: State = .stand {
-        didSet {
-            if state == .longJump {
-                count += 1
-            }
-        }
-    }
+    var state: State = .stand
+    var direction: VelocityEnum = .down
 }

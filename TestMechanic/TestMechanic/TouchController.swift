@@ -31,8 +31,12 @@ class TouchController {
     
     var velocity: CGPoint = .zero
 
-    var didFirstTap = true
-    var lockMove = false
+    /*
+     didStartPan/freezeReversePan - нужны для предовращения нежелательного эффекта реверсивного движения героя,
+     когда первое касание и движение пальца начинается в обратную сторону предполагаемого направления в заданном секторе.
+     */
+    var didStartPan = true
+    var freezeReversePan = false
     
     var panRecognizer = UIPanGestureRecognizer() // передвижение героя
     var tapRecognizer = UITapGestureRecognizer() // прыжки героя
@@ -166,19 +170,19 @@ extension TouchController {
     func handleMove() {
         switch panRecognizer.state {
             case .began:
-                didFirstTap = true
+                didStartPan = true
                 currentPoint = panRecognizer.location(in: panView)
                 hero.state = .run
                 
             case .changed:
                 if currentPoint == .zero {
-                    didFirstTap = true
+                    didStartPan = true
                     currentPoint = panRecognizer.location(in: panView)
                 }
                 hero.state = .run
                 
             case .ended, .failed:
-                didFirstTap = true
+                didStartPan = true
                 hero.state = .willStand
                 asyncToStand()
 
@@ -236,18 +240,15 @@ extension TouchController {
         currentPoint = panRecognizer.location(in: panView)
         let translatePoint = panRecognizer.translation(in: panView)
         
-        velocity = getVelocity(startPoint: centerPoint, nextPoint: currentPoint, didFirstStep: &didFirstTap, translation: translatePoint, lockMove: &lockMove)
+        velocity = getVelocity(node: heroNode, hero: hero, startPoint: centerPoint, nextPoint: currentPoint, didStartPan: &didStartPan, translation: translatePoint, freezeReversePan: &freezeReversePan)
 
-        if lockMove == false  {
+        if freezeReversePan == false  {
             let newX = CGFloat(lastHeroPosition.x) + velocity.x
             let newZ = CGFloat(lastHeroPosition.z) + velocity.y
            
             let moveTo = SCNVector3(newX, CGFloat(heroNode.presentation.worldPosition.y), newZ)
             lastHeroPosition = moveTo
             heroNode.position = moveTo
-            DispatchQueue.main.sync {
-                centroidView.center = currentPoint
-            }
         }
     }
 }
