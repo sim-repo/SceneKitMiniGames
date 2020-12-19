@@ -7,7 +7,7 @@
 
 import Foundation
 import SceneKit
-
+import GameKit
 func moveBySquare(node: SCNNode) {
     
     let duration:Double = 0.6
@@ -34,14 +34,14 @@ func moveBySquare(node: SCNNode) {
     var forwardArray: [SCNAction] = []
     var backwardArray: [SCNAction] = []
     
-    for _ in 0...10 {
-        let jumpLeft = SCNAction.group([turnLeftAction, bounceAction, moveLeftAction])
+    for _ in 0...5 {
+        let jumpLeft = SCNAction.group([turnLeftAction, bounceAction, moveLeftAction, SCNAction.wait(duration: 1.0)])
         leftArray.append(jumpLeft)
-        let jumpRight = SCNAction.group([turnRightAction, bounceAction, moveRightAction])
+        let jumpRight = SCNAction.group([turnRightAction, bounceAction, moveRightAction, SCNAction.wait(duration: 1.0)])
         rightArray.append(jumpRight)
-        let jumpForward = SCNAction.group([turnForwardAction, bounceAction, moveForwardAction])
+        let jumpForward = SCNAction.group([turnForwardAction, bounceAction, moveForwardAction, SCNAction.wait(duration: 1.0)])
         forwardArray.append(jumpForward)
-        let jumpBackward = SCNAction.group([turnBackwardAction, bounceAction, moveBackwardAction])
+        let jumpBackward = SCNAction.group([turnBackwardAction, bounceAction, moveBackwardAction, SCNAction.wait(duration: 1.0)])
         backwardArray.append(jumpBackward)
     }
     

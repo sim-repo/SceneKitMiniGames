@@ -14,14 +14,33 @@ func getNodeSize(_ node: SCNNode) -> CGSize {
     return CGSize(width: CGFloat(width), height: CGFloat(height))
 }
 
+
 func getNodeTop(_ node: SCNNode) -> CGFloat {
     let size = getNodeSize(node)
-    return CGFloat(node.position.y) + size.height/2
+    return CGFloat(node.worldPosition.y) + size.height/2
 }
 
 
 func getNodeBottom(_ node: SCNNode) -> CGFloat {
     let size = getNodeSize(node)
-    return CGFloat(node.position.y) - size.height/2
+    return CGFloat(node.worldPosition.y) - size.height/2
 }
 
+
+func calcDistance(node1: SCNNode, node2: SCNNode) -> CGFloat {
+    let dx = node2.presentation.worldPosition.x - node1.presentation.worldPosition.x
+    let dz = node2.presentation.worldPosition.z - node1.presentation.worldPosition.z
+    
+    return CGFloat(sqrt(dx*dx + dz*dz))
+}
+
+
+//MARK:- 3D
+
+func getNodeSize3D(_ node: SCNNode) -> SCNVector3 {
+    let (minVec, maxVec) = node.boundingBox
+    let height = maxVec.y - minVec.y
+    let width = maxVec.x - minVec.x
+    let len = maxVec.z - minVec.z
+    return SCNVector3(width, height, len)
+}

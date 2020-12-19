@@ -47,12 +47,17 @@ class TouchController {
     var panView: UIView!
     var centroidView: UIView!
     var heroNode: SCNNode!
-    var hero = Hero()
+    var hero: Hero!
     
     
-    func setup(panView: UIView, tapView: UIView, centroidView: UIView, heroNode: SCNNode){
+    var game = GameHelper.shared
+    
+    
+
+    func setup(panView: UIView, tapView: UIView, centroidView: UIView, heroNode: SCNNode, heroModel: Hero){
         self.panView = panView
         self.heroNode = heroNode
+        self.hero = heroModel
         self.centroidView = centroidView
         
         panRecognizer.addTarget(self, action: #selector(handlePanGesture))
@@ -62,7 +67,7 @@ class TouchController {
         panView.addGestureRecognizer(panRecognizer)
         tapView.addGestureRecognizer(tapRecognizer)
     }
-    
+
 
     func setCenterPoint() {
         DispatchQueue.main.sync {
@@ -145,9 +150,11 @@ class TouchController {
 extension TouchController {
     @objc func handleTapGesture() {
         if hero.state == .run  || hero.state == .willStand {
+            game.playSound(heroNode, name: "Jump")
             longJump()
         } else
         if hero.state == .stand {
+            game.playSound(heroNode, name: "Jump")
             highJump()
         }
     }
