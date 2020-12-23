@@ -17,7 +17,7 @@ func getNodeSize(_ node: SCNNode) -> CGSize {
 
 func getNodeTop(_ node: SCNNode) -> CGFloat {
     let size = getNodeSize(node)
-    return CGFloat(node.worldPosition.y) + size.height/2
+    return CGFloat(node.presentation.worldPosition.y) + size.height/2
 }
 
 

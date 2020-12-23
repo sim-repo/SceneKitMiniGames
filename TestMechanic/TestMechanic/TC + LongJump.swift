@@ -30,7 +30,7 @@ extension TouchController {
             self.lastHeroPosition = self.heroNode.presentation.worldPosition
         }
         
-        let jump = SCNAction.group([bounceAction, moveAction, customAction])
+        let jump = SCNAction.group([bounceAction, moveAction])//, customAction])
         let seq = SCNAction.sequence([jump])
         
         heroNode.runAction(seq)

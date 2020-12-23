@@ -234,6 +234,7 @@ extension ViewController : SCNSceneRendererDelegate {
         updateCamera()
         touchControler.tryMove()
         
+
         triggerActions()
         if firstTime {
             firstTime = false
@@ -289,7 +290,7 @@ extension ViewController  {
 //MARK:- hiding obstacles
 extension ViewController  {
     func makeTransparentHidingObjects(){
-        
+        return
         timerHideObstacles = Timer.init(fire: Date().addingTimeInterval(0), interval: 0.2, repeats: true) {_ in
             DispatchQueue.global(qos: .utility).async {
                 let nodes = self.scnView.nodesInsideFrustum(of: self.camera)

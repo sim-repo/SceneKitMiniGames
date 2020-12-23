@@ -250,9 +250,14 @@ extension TouchController {
         velocity = getVelocity(node: heroNode, hero: hero, startPoint: centerPoint, nextPoint: currentPoint, didStartPan: &didStartPan, translation: translatePoint, freezeReversePan: &freezeReversePan)
 
         if freezeReversePan == false  {
-            let newX = CGFloat(lastHeroPosition.x) + velocity.x
-            let newZ = CGFloat(lastHeroPosition.z) + velocity.y
+         //   let newX = CGFloat(lastHeroPosition.x) + velocity.x
+          //  let newZ = CGFloat(lastHeroPosition.z) + velocity.y
            
+            let newX = CGFloat(heroNode.presentation.worldPosition.x) + velocity.x
+            let newZ = CGFloat(heroNode.presentation.worldPosition.z) + velocity.y
+            
+           
+            
             let moveTo = SCNVector3(newX, CGFloat(heroNode.presentation.worldPosition.y), newZ)
             lastHeroPosition = moveTo
             heroNode.position = moveTo
