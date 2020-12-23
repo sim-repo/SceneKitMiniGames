@@ -11,8 +11,9 @@ import SceneKit
 
 let BitMaskHero = 1
 let BitMaskObstacle = 4
+let BitMaskBoundingBox = 6
 let BitMaskEnemy = 8
-var activeCollisionsBitMask: Int = 0
+
 
 class ViewController: UIViewController {
     
@@ -287,35 +288,7 @@ extension ViewController  {
 }
 
 
-//MARK:- hiding obstacles
-extension ViewController  {
-    func makeTransparentHidingObjects(){
-        return
-        timerHideObstacles = Timer.init(fire: Date().addingTimeInterval(0), interval: 0.2, repeats: true) {_ in
-            DispatchQueue.global(qos: .utility).async {
-                let nodes = self.scnView.nodesInsideFrustum(of: self.camera)
-                
-                DispatchQueue.main.sync {
-                    nodes.forEach {n in
-                        n.opacity = 1
-                    }
-                }
-                
-                let nearZ = nodes.filter{$0.worldPosition.z > self.heroNode.worldPosition.z}
-                
-                let heroTop = self.hero.getHeroTop(self.heroNode)
-                let higher = nearZ.filter{ (getNodeTop($0) - 2) > heroTop }
-    
-                DispatchQueue.main.sync {
-                    for n in higher {
-                        n.opacity = 0.4
-                    }
-                }
-            }
-        }
-        RunLoop.main.add(timerHideObstacles!, forMode: .common)
-    }
-}
+
 
 
 

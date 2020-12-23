@@ -13,6 +13,7 @@
 		164B2CC7258E7A33000BDBE5 /* StaticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164B2CC6258E7A33000BDBE5 /* StaticModel.swift */; };
 		166277E6258E169600DBEA6B /* GameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166277E5258E169600DBEA6B /* GameHelper.swift */; };
 		166277EC258E17A500DBEA6B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166277EB258E17A500DBEA6B /* MenuViewController.swift */; };
+		166992382593544D00D64279 /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166992372593544D00D64279 /* Hider.swift */; };
 		16701DB4258BB9D1007048BE /* NodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16701DB3258BB9D1007048BE /* NodeHelper.swift */; };
 		16701DB7258BE01F007048BE /* AdditionalScnActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16701DB6258BE01F007048BE /* AdditionalScnActions.swift */; };
 		16701DE3258CDE56007048BE /* Pathfinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16701DE2258CDE56007048BE /* Pathfinder.swift */; };
@@ -37,6 +38,7 @@
 		164B2CC6258E7A33000BDBE5 /* StaticModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticModel.swift; sourceTree = "<group>"; };
 		166277E5258E169600DBEA6B /* GameHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHelper.swift; sourceTree = "<group>"; };
 		166277EB258E17A500DBEA6B /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		166992372593544D00D64279 /* Hider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hider.swift; sourceTree = "<group>"; };
 		16701DB3258BB9D1007048BE /* NodeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeHelper.swift; sourceTree = "<group>"; };
 		16701DB6258BE01F007048BE /* AdditionalScnActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalScnActions.swift; sourceTree = "<group>"; };
 		16701DE2258CDE56007048BE /* Pathfinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pathfinder.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			children = (
 				16A4592F258579AD0062028B /* ViewController.swift */,
 				166277EB258E17A500DBEA6B /* MenuViewController.swift */,
+				166992372593544D00D64279 /* Hider.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				16A45930258579AD0062028B /* ViewController.swift in Sources */,
 				166277EC258E17A500DBEA6B /* MenuViewController.swift in Sources */,
 				162FADED258939C300922ACF /* TC + HighJump.swift in Sources */,
+				166992382593544D00D64279 /* Hider.swift in Sources */,
 				16E27C2F258AB8CD005965E8 /* MovingDirection.swift in Sources */,
 				16701DB4258BB9D1007048BE /* NodeHelper.swift in Sources */,
 				164B2CC7258E7A33000BDBE5 /* StaticModel.swift in Sources */,

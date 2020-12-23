@@ -27,6 +27,11 @@ func getNodeBottom(_ node: SCNNode) -> CGFloat {
 }
 
 
+func getNodeFarZ(_ node: SCNNode) -> Float {
+    let size = getNodeSize(node)
+    return node.presentation.worldPosition.z - Float(size.width/2)
+}
+
 func calcDistance(node1: SCNNode, node2: SCNNode) -> CGFloat {
     let dx = node2.presentation.worldPosition.x - node1.presentation.worldPosition.x
     let dz = node2.presentation.worldPosition.z - node1.presentation.worldPosition.z
