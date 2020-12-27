@@ -14,6 +14,11 @@ public enum GameStateType {
     case gameOver
 }
 
+func impactFeedback(){
+    let generator = UIImpactFeedbackGenerator(style: .soft)
+    generator.impactOccurred()
+}
+
 
 class GameHelper {
     static let shared = GameHelper()
@@ -46,8 +51,15 @@ class GameHelper {
     func playSound(_ node:SCNNode, name:String) {
         let sound = sounds[name]
         let keys = node.actionKeys
-        if keys.contains("\(node.name)_sound") == false {
-            node.runAction(SCNAction.playAudio(sound!, waitForCompletion: true), forKey: "\(node.name)_sound")
+        if keys.contains("\(node.name)_\(sound)") == false {
+            node.runAction(SCNAction.playAudio(sound!, waitForCompletion: true), forKey: "\(node.name)_\(sound)")
         }
     }
+    
+    func forcePlaySound(_ node:SCNNode, name:String) {
+        let sound = sounds[name]
+        
+        node.runAction(SCNAction.playAudio(sound!, waitForCompletion: false), forKey: "\(node.name)_\(sound)")
+    }
+    
 }

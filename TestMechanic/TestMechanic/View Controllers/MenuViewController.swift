@@ -54,7 +54,7 @@ class MenuViewController: UIViewController {
     func setupSounds() {
         if game.state == .tapToPlay {
             let music = SCNAudioSource(fileNamed: "Mech.scnassets/Audio/Music.mp3")!
-            music.volume = 0.02
+            music.volume = 0.001
             music.loops = true
             music.shouldStream = false
             music.isPositional = false

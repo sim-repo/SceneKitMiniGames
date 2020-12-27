@@ -15,6 +15,10 @@ extension TouchController {
     
     func longJump() {
         hero.state = .longJump
+        if hero.lastPosY == nil { 
+            hero.lastPosY = heroNode.presentation.worldPosition.y
+        }
+        
         let duration = jumpDurationKf
         
         // Bounce:
@@ -26,20 +30,27 @@ extension TouchController {
         
         // Moving:
         let moveAction = SCNAction.moveBy(x: CGFloat(jumpDistanceKf*velocity.x), y: 0, z: CGFloat(jumpDistanceKf*velocity.y), duration: duration*0.7)
+        
+        
         let customAction = SCNAction.customAction(duration: duration) {_,_ in
             self.lastHeroPosition = self.heroNode.presentation.worldPosition
         }
+        
         
         let jump = SCNAction.group([bounceAction, moveAction])//, customAction])
         let seq = SCNAction.sequence([jump])
         
         heroNode.runAction(seq)
+        
+        impactFeedback()
+        
         DispatchQueue.global().asyncAfter(deadline: .now()+duration-0.3) {
-            if self.hero.state != .run {
-                self.hero.state = .stand
+            if self.hero.state != .stand {
+                self.hero.state = self.isPanningNow ? .run : .stand
             }
         }
     }
+    
     
     
     func calcLongJumpHeight() -> CGFloat {

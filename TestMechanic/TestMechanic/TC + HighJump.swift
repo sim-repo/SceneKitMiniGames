@@ -12,12 +12,14 @@ import SceneKit
 
 //MARK:- High Jump
 extension TouchController {
-    
     func highJump() {
         guard hero.state != .longJump && hero.state != .run else { return }
-        
         hero.state = .highJump
-        let duration = 0.6
+        if hero.lastPosY == nil {
+            hero.lastPosY = heroNode.presentation.worldPosition.y
+        }
+        
+        let duration = 1.0
         
         // Bounce:
         let bounceUpAction = SCNAction.moveBy(x: 0, y: calcHighJumpHeight(), z: 0, duration: duration * 0.5)
@@ -28,9 +30,11 @@ extension TouchController {
         DispatchQueue.global().asyncAfter(deadline: .now()+duration) {
             self.hero.state = .stand
         }
+        impactFeedback()
         heroNode.runAction(bounceAction)
     }
 }
+
 
 func calcHighJumpHeight() -> CGFloat {
     switch speedType {

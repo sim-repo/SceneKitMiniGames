@@ -24,8 +24,8 @@ var jumpDistanceKf: CGFloat = 60
 
 class TouchController {
     
-    var centerPoint: CGPoint = .zero 
-    var currentPoint: CGPoint = .zero
+    var joyCenterPoint: CGPoint = .zero 
+    var joyCurrentPoint: CGPoint = .zero
     
     var lastHeroPosition: SCNVector3 = .init(0, 0, 0)
     
@@ -45,20 +45,24 @@ class TouchController {
     
     
     var panView: UIView!
-    var centroidView: UIView!
     var heroNode: SCNNode!
     var hero: Hero!
+    
+    /*
+        Проверка, что правый палец находится на экране. Как только палец поднимается от экрана, то
+        при long jump герой не переходит в состояние run, после приземления.
+     */
+    var isPanningNow = false
     
     
     var game = GameHelper.shared
     
     
 
-    func setup(panView: UIView, tapView: UIView, centroidView: UIView, heroNode: SCNNode, heroModel: Hero){
+    func setup(panView: UIView, tapView: UIView, heroNode: SCNNode, heroModel: Hero){
         self.panView = panView
         self.heroNode = heroNode
         self.hero = heroModel
-        self.centroidView = centroidView
         
         panRecognizer.addTarget(self, action: #selector(handlePanGesture))
         panRecognizer.maximumNumberOfTouches = 1
@@ -71,7 +75,7 @@ class TouchController {
 
     func setCenterPoint() {
         DispatchQueue.main.sync {
-            centerPoint = CGPoint(x: panView.frame.size.width/2, y: panView.frame.size.height/2)
+            joyCenterPoint = CGPoint(x: panView.frame.size.width/2, y: panView.frame.size.height/2)
         }
     }
     
@@ -149,7 +153,7 @@ class TouchController {
 //MARK:- Init Jump
 extension TouchController {
     @objc func handleTapGesture() {
-        if hero.state == .run  || hero.state == .willStand {
+        if hero.state == .run {
             game.playSound(heroNode, name: "Jump")
             longJump()
         } else
@@ -166,7 +170,7 @@ extension TouchController {
 extension TouchController {
     
     @objc func handlePanGesture() {
-        if hero.state == .run ||  hero.state == .stand || hero.state == .willStand {
+        if hero.state == .run ||  hero.state == .stand {
             handleMove()
         } else if hero.state ==  .longJump ||  hero.state ==  .highJump {
             handleFly()
@@ -175,24 +179,27 @@ extension TouchController {
     
     
     func handleMove() {
+    
         switch panRecognizer.state {
             case .began:
-                didStartPan = true
-                currentPoint = panRecognizer.location(in: panView)
+                didStartPan = true // предотвращяем реверс
+                
+                joyCurrentPoint = panRecognizer.location(in: panView)
                 hero.state = .run
                 
             case .changed:
-                if currentPoint == .zero {
-                    didStartPan = true
-                    currentPoint = panRecognizer.location(in: panView)
+                if joyCurrentPoint == .zero {
+                    didStartPan = true // предотвращяем реверс
+                    joyCurrentPoint = panRecognizer.location(in: panView)
                 }
                 hero.state = .run
                 
+                
             case .ended, .failed:
-                didStartPan = true
-                hero.state = .willStand
-                asyncToStand()
-
+                didStartPan = false // предотвращяем реверс
+                isPanningNow = false // нужно для перехода в stand после long jump
+                joyCurrentPoint = .zero
+                hero.state = .stand
             default: break
         }
     }
@@ -201,32 +208,19 @@ extension TouchController {
     func handleFly() {
         switch panRecognizer.state {
             case .began:
-                currentPoint = panRecognizer.translation(in: panView)
-                
+                joyCurrentPoint = panRecognizer.translation(in: panView)
+                isPanningNow = true // нужно для перехода в run после long jump
             case .changed:
-                if currentPoint == .zero {
-                    currentPoint = panRecognizer.translation(in: panView)
+                if joyCurrentPoint == .zero {
+                    joyCurrentPoint = panRecognizer.translation(in: panView)
                 }
+                isPanningNow = true // нужно для перехода в run после long jump
                 
             case .ended, .failed:
-                currentPoint = .zero
-
+                joyCurrentPoint = .zero
+                isPanningNow = false // нужно для перехода в stand после long jump
             default:
                 break
-        }
-    }
-    
-    
-    func asyncToStand() {
-        // инерция движения 0.1 мс после снятия нажатия:
-        DispatchQueue.global().asyncAfter(deadline: .now()+0.14) {
-            self.currentPoint = .zero
-        }
-        // лаг времени, выделенный для того, чтобы успеть за 0.3 мс нажать прыжок
-        DispatchQueue.global().asyncAfter(deadline: .now()+0.4) {
-            if self.hero.state == .willStand {
-                self.hero.state = .stand
-            }
         }
     }
 }
@@ -237,26 +231,21 @@ extension TouchController {
 extension TouchController {
     
     func tryMove() {
-        guard hero.state != .stand else { return }
-        guard currentPoint != .zero else { return }
+        guard hero.state != .stand && hero.state != .fallDown  else { return }
+        guard joyCurrentPoint != .zero else { return }
         
-        if centerPoint == .zero {
+        if joyCenterPoint == .zero {
             setCenterPoint()
         }
             
-        currentPoint = panRecognizer.location(in: panView)
+        joyCurrentPoint = panRecognizer.location(in: panView)
         let translatePoint = panRecognizer.translation(in: panView)
         
-        velocity = getVelocity(node: heroNode, hero: hero, startPoint: centerPoint, nextPoint: currentPoint, didStartPan: &didStartPan, translation: translatePoint, freezeReversePan: &freezeReversePan)
+        velocity = getVelocity(heroNode, hero, joyCenterPoint, joyCurrentPoint, &didStartPan, translatePoint, &freezeReversePan)
 
         if freezeReversePan == false  {
-         //   let newX = CGFloat(lastHeroPosition.x) + velocity.x
-          //  let newZ = CGFloat(lastHeroPosition.z) + velocity.y
-           
             let newX = CGFloat(heroNode.presentation.worldPosition.x) + velocity.x
             let newZ = CGFloat(heroNode.presentation.worldPosition.z) + velocity.y
-            
-           
             
             let moveTo = SCNVector3(newX, CGFloat(heroNode.presentation.worldPosition.y), newZ)
             lastHeroPosition = moveTo
